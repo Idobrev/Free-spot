@@ -1,0 +1,10 @@
+<?php 
+define('BASE_PATH', dirname(dirname(realpath(__FILE__))) . DIRECTORY_SEPARATOR);
+define('LIBRARIES', BASE_PATH . 'libraries' . DIRECTORY_SEPARATOR);
+define('CONTROLLERS', BASE_PATH . 'controllers' . DIRECTORY_SEPARATOR);
+define('VALIDATORS', BASE_PATH . 'validators' . DIRECTORY_SEPARATOR);
+define('VIEWS', BASE_PATH . 'views' . DIRECTORY_SEPARATOR);
+define('MODELS', BASE_PATH . 'models' . DIRECTORY_SEPARATOR);
+define('PUBLIC_PATH', DIRECTORY_SEPARATOR . basename(BASE_PATH) . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR);
+define('URL', DIRECTORY_SEPARATOR . basename(BASE_PATH) . DIRECTORY_SEPARATOR);
+?>
