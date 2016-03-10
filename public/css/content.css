@@ -1,6 +1,6 @@
 body {
 	/*background:#CCCCCC;*/
-	background-image: url("/freespot/public/pics/internet1.jpg");
+	background-image: url("../../public/pics/internet1.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 	/*background-repeat: repeat-x;*/
