@@ -1,0 +1,7 @@
+RewriteEngine on
+#RewriteBase /Testing/
+
+RewriteRule ^hello/([^\/\.]+)/?$ index2.html?hello=hi
+RewriteRule ^hello/[^\/\.]+/(css|js)/(.*)$ $1/$2
+
+#./Megatron/public/absorbed/index.html

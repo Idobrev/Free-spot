@@ -9,11 +9,15 @@ require (LIBRARIES . 'Model.php');
 require (LIBRARIES . 'Session.php');
 require (LIBRARIES . 'Validator.php');
 require (LIBRARIES . 'MegatronException.php');
+require (LIBRARIES . 'Configurator.php');
+require (LIBRARIES . 'Helper.php');
 
 $application = new Application();
+$application->readConfiguration();
 $application->startSession();
 $application->parseURL();
 $application->callController();
+
 //$application->renderView();
 //echo BASE_PATH;
 

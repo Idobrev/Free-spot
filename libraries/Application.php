@@ -23,20 +23,37 @@ class Application {
 		$this->url->controllerName = $url[0];
 		@$this->url->method = $url[1];
 	}
+	
+	public function readConfiguration() {
+		try {
+			Configurator::parseConfiguration();	
+		} catch (MegatronException $e){
+			echo $e->errorMessage();
+		}
+	}
+	
 	/**
 	 * Validates url and calls the controller 
 	 */
 	public function callController() {
-		if (file_exists(CONTROLLERS . $this->url->controllerName . '.php')) {
-			require(CONTROLLERS . $this->url->controllerName . '.php');
-        	$controller = new $this->url->controllerName;
-			if (!empty($this->url->method)){
-				$this->callMethod($controller, $this->url->method);
-			}else {
-				$this->callMethod($controller,'index');
+		try {
+			if ( Configurator::getField('absorb-mode') == TRUE) {
+				$this->url->controllerName = 'absorb';
+				$this->url->method = '';
 			}
-		}else {
-			$this->callErrorController();
+			if (file_exists(CONTROLLERS . $this->url->controllerName . '.php')) {
+				require(CONTROLLERS . $this->url->controllerName . '.php');
+	        	$controller = new $this->url->controllerName;
+				if (!empty($this->url->method)){
+					$this->callMethod($controller, $this->url->method);
+				}else {
+					$this->callMethod($controller, 'index');
+				}
+			}else {
+				$this->callErrorController();
+			}
+		} catch (MegatronException $e) {
+			echo $e->errorMessage();
 		}
 	}
 	/**

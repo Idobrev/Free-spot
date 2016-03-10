@@ -3,7 +3,7 @@
 # Turn on the rewrite engine
 Options +FollowSymlinks
 RewriteEngine On
-RewriteBase /FreeSpot/
+#RewriteBase /FreeSpot/
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

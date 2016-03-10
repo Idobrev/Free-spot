@@ -10,7 +10,9 @@
 			parent::__construct();	
 			$this->val = $this->getValidator('login');
 		}
-		
+		/**
+		 * Authentication model main function
+		 */
 		public function authenticate(){
 			if ( !$this->validateInputFields() )return FALSE;
 			return $this->getUserInformation();
