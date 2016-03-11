@@ -1,7 +1,7 @@
 function loadDataTable(){
 	//$('#dt').DataTable();
 	 $('#dt').DataTable( {
-        "ajax": "http://localhost/freespot/restAPI/getDataTableSpots",
+        "ajax": "http://localhost/FreeSpot/Megatron/restAPI/getDataTableSpots",
         "columns": [
             { "data": "Name" },
             { "data": "Password" },

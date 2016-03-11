@@ -12,9 +12,6 @@
 		public function __prepare ($sth, Array $params) {
 			foreach ($params as $field => &$value){ $sth->bindParam(':' . $field, $value); }
 		}
-		
-		/**/
-		
 	}
 	
  ?>

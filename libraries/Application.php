@@ -1,5 +1,4 @@
 <?php
-
 class Application {
 
 	public $url;
@@ -23,12 +22,15 @@ class Application {
 		$this->url->controllerName = $url[0];
 		@$this->url->method = $url[1];
 	}
-	
+	/**
+	 * Invokes configurator to parse the configuration or throws an error
+	 */
 	public function readConfiguration() {
 		try {
 			Configurator::parseConfiguration();	
 		} catch (MegatronException $e){
 			echo $e->errorMessage();
+			exit;
 		}
 	}
 	
@@ -36,38 +38,48 @@ class Application {
 	 * Validates url and calls the controller 
 	 */
 	public function callController() {
+		$controllerName = $this->url->controllerName; // contains our controller main
+		$method = $this->url->method; //the method we are going to invoke from our controller
+		$args = ''; //arguments to be passed to our invoked method 
 		try {
-			if ( Configurator::getField('absorb-mode') == TRUE) {
-				$this->url->controllerName = 'absorb';
-				$this->url->method = '';
+			if ( Configurator::getField('Megatron', 'absorb-mode') == TRUE ) { //checks if we are in absorb mode. In this mode Megatron will only invoke the absorb controller. 
+				$controllerName = 'absorb';
+				$method = '';
+				$args = $this->url->controllerName;
+			} else if (Configurator::getField('Megatron', 'is-installed') == TRUE) { //check to see whether we need to install Megatron first
+				
 			}
-			if (file_exists(CONTROLLERS . $this->url->controllerName . '.php')) {
-				require(CONTROLLERS . $this->url->controllerName . '.php');
-	        	$controller = new $this->url->controllerName;
-				if (!empty($this->url->method)){
-					$this->callMethod($controller, $this->url->method);
+			// actually call the controllers 
+			if (file_exists(CONTROLLERS . $controllerName . '.php')) {
+				require(CONTROLLERS . $controllerName . '.php');
+	        	$controller = new $controllerName;
+				#$controller = new ReflectionClass($controllerName);
+				if (!empty($this->url->method)) {
+					$this->callMethod($controller, $method, $args);
 				}else {
-					$this->callMethod($controller, 'index');
+					$this->callMethod($controller, 'index', $args);
 				}
 			}else {
 				$this->callErrorController();
 			}
 		} catch (MegatronException $e) {
 			echo $e->errorMessage();
+			exit;
 		}
 	}
 	/**
 	 * Calls the method of the current controller
 	 */
-	private function callMethod($controller, $method) {
+	private function callMethod($controller, $method, $args) {
 		try {
 			if (method_exists($controller, $method)){
-				$controller->{$method}();
+				$controller->{$method}($args);
 			}else {
 				$this->callErrorController();
 			}
 		} catch (MegatronException $e){
 			echo $e->errorMessage();
+			exit;
 		}
 	}
 	/**

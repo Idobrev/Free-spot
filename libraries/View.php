@@ -18,8 +18,8 @@ class View {
 		require (VIEWS . $name);
 	}
 	/**
-	 * Renders with headers and footer
-	 * @renderView - if its a string, it will render 1 view, if array it will iterate through all views
+	 * Renders including a headers and footer
+	 * @renderView - if its a string, it will render 1 view, if array it will iterate through all views and will render header first and footer last
 	 */
 	public function render_withIncludes($views, $sessionCheck = true) {
 		$this->render_header();
