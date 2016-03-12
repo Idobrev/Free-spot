@@ -33,7 +33,6 @@ class Application {
 			exit;
 		}
 	}
-	
 	/**
 	 * Validates url and calls the controller 
 	 */
@@ -43,6 +42,7 @@ class Application {
 		$args = ''; //arguments to be passed to our invoked method 
 		try {
 			if ( Configurator::getField('Megatron', 'absorb-mode') == TRUE ) { //checks if we are in absorb mode. In this mode Megatron will only invoke the absorb controller. 
+				$this->checkUrlForAbsorbtion(basename($_GET['url']));
 				$controllerName = 'absorb';
 				$method = '';
 				$args = $this->url->controllerName;
@@ -81,6 +81,12 @@ class Application {
 			echo $e->errorMessage();
 			exit;
 		}
+	}
+	/**
+	* Checks whether the url got should be scaned and absorbed
+	*/
+	private function checkUrlForAbsorbtion() {
+		
 	}
 	/**
 	 * Calls the error controller by default
