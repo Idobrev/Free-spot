@@ -41,13 +41,11 @@ class Application {
 		$method = $this->url->method; //the method we are going to invoke from our controller
 		$args = ''; //arguments to be passed to our invoked method 
 		try {
-			if ( Configurator::getField('Megatron', 'absorb-mode') == TRUE ) { //checks if we are in absorb mode. In this mode Megatron will only invoke the absorb controller. 
-				$this->checkUrlForAbsorbtion(basename($_GET['url']));
+			//checks if we are in absorb mode. In this mode Megatron will only invoke the absorb controller.
+			if ( Configurator::getField(Constants::MEGATRON_SECTION, Constants::MEGATRON_FIELD_ABSORB_MODE) == TRUE  && $this->checkUrlForAbsorbation(($_GET['url'])) ) {
 				$controllerName = 'absorb';
-				$method = '';
-				$args = $this->url->controllerName;
-			} else if (Configurator::getField('Megatron', 'is-installed') == TRUE) { //check to see whether we need to install Megatron first
-				
+				$method = 'index';
+				$args = $_GET['url'];
 			}
 			// actually call the controllers 
 			if (file_exists(CONTROLLERS . $controllerName . '.php')) {
@@ -83,10 +81,14 @@ class Application {
 		}
 	}
 	/**
-	* Checks whether the url got should be scaned and absorbed
+	* Checks whether the url we have should be scaned and absorbed
 	*/
-	private function checkUrlForAbsorbtion() {
-		
+	private function checkUrlForAbsorbation($url) {
+		$urlsToAbsorb = Configurator::getField(Constants::MEGATRON_SECTION, Constants::MEGATRON_FIELD_ABSORBED_URLS);
+		if (in_array($url, $urlsToAbsorb)) {
+			return true;
+		}
+		return false;
 	}
 	/**
 	 * Calls the error controller by default
