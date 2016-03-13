@@ -39,7 +39,7 @@ class Application {
 	public function callController() {
 		$controllerName = $this->url->controllerName; // contains our controller main
 		$method = $this->url->method; //the method we are going to invoke from our controller
-		$args = ''; //arguments to be passed to our invoked method 
+		$args = ''; //arguments to be passed to our invoked method
 		try {
 			//checks if we are in absorb mode. In this mode Megatron will only invoke the absorb controller.
 			if ( Configurator::getField(Constants::MEGATRON_SECTION, Constants::MEGATRON_FIELD_ABSORB_MODE) == TRUE  && $this->checkUrlForAbsorbation(($_GET['url'])) ) {
